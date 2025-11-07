@@ -56,9 +56,9 @@ const HeroSection: React.FC<HeroSectionProps> = ({ HeroSectionLogoSrc }) => {
             </div>
             <div className="flex justify-center md:justify-start">
               <button
-                onClick={() => navigate("/courses")}
-                className="bg-customAccent h-[48px] flex items-center p-4 rounded-[14px] text-sm md:text-base text-customWhite font-semibold align-middle hover:bg-[#289675] transition-all duration-300 ease-in-out"
-                aria-label="Explore courses"
+                onClick={() => navigate("")}
+                className="bg-customAccent h-12 flex items-center p-4 rounded-[14px] text-sm md:text-base text-customWhite font-semibold align-middle hover:bg-[#289675] transition-all duration-300 ease-in-out"
+                aria-label="Explore Vehicle"
               >
                 Browse Vehicle
               </button>
@@ -70,9 +70,23 @@ const HeroSection: React.FC<HeroSectionProps> = ({ HeroSectionLogoSrc }) => {
             <img
               src={HeroSectionLogoSrc}
               alt="Hero section showcasing a variety of courses"
-              className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl h-auto   transform transition-transform duration-300"
+              className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl h-auto transform transition-transform duration-300"
             />
           </div>
+        </div>
+        <div className="mt-12 lg:mt-16 text-center">
+          <h1 className="text-2xl lg:text-3xl font-bold mb-4">
+            Featured Collection
+          </h1>
+          <h2 className="text-sm lg:text-base text-customWhite max-w-3xl mx-auto">
+            Handcrafted selection of the world's most extraordinary vehicles.
+            Each one tells a story of performance, luxury, and innovation.
+          </h2>
+        </div>
+        <div className="mt-12 lg:mt-16 text-center">
+          <h1 className="text-2xl lg:text-3xl font-bold mb-4">
+            Why Choose Yatra?
+          </h1>
         </div>
       </div>
     </div>
