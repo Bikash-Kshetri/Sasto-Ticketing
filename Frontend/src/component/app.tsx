@@ -5,23 +5,76 @@ interface HeroSectionProps {
 }
 
 const IconWithLabel: React.FC<{
-  iconSrc: string;
+  iconType: "cancel" | "support" | "insurance";
   label: string;
   colorClass: string;
-}> = ({ iconSrc, label, colorClass }) => (
-  <div className="flex items-center space-x-2">
-    <img
-      src={iconSrc}
-      alt={label}
-      className={`w-6 h-6 md:w-7 md:h-7 lg:h-8 ${colorClass}`}
-    />
-    <span className="text-xs sm:text-sm md:text-base lg:text-small-size text-customWhite">
-      {label}
-    </span>
-  </div>
-);
+}> = ({ iconType, label, colorClass }) => {
+  const getIcon = () => {
+    switch (iconType) {
+      case "cancel":
+        return (
+          <svg
+            className={`w-6 h-6 md:w-7 md:h-7 lg:h-8 ${colorClass}`}
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        );
+      case "support":
+        return (
+          <svg
+            className={`w-6 h-6 md:w-7 md:h-7 lg:h-8 ${colorClass}`}
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"
+            />
+          </svg>
+        );
+      case "insurance":
+        return (
+          <svg
+            className={`w-6 h-6 md:w-7 md:h-7 lg:h-8 ${colorClass}`}
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+            />
+          </svg>
+        );
+      default:
+        return null;
+    }
+  };
 
-const HeroSection: React.FC<HeroSectionProps> = ({ HeroSectionLogoSrc }) => {
+  return (
+    <div className="flex items-center space-x-2">
+      {getIcon()}
+      <span className="text-xs sm:text-sm md:text-base lg:text-small-size text-customWhite">
+        {label}
+      </span>
+    </div>
+  );
+};
+
+const HeroSection: React.FC<HeroSectionProps> = ({}) => {
   const navigate = useNavigate();
 
   return (
@@ -39,17 +92,17 @@ const HeroSection: React.FC<HeroSectionProps> = ({ HeroSectionLogoSrc }) => {
             </p>
             <div className="flex flex-wrap gap-4 lg:gap-6 justify-center md:justify-start">
               <IconWithLabel
-                iconSrc="/vite.svg"
+                iconType="cancel"
                 label="Free Cancellation"
                 colorClass="text-yellow-400"
               />
               <IconWithLabel
-                iconSrc="/assets/react.svg"
+                iconType="support"
                 label="24/7 Support"
                 colorClass="text-orange-500"
               />
               <IconWithLabel
-                iconSrc="/assets/react.svg"
+                iconType="insurance"
                 label="Insurance Included"
                 colorClass="text-pink-500"
               />
@@ -68,7 +121,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ HeroSectionLogoSrc }) => {
           {/* Image Section */}
           <div className="md:w-2/5 flex justify-center">
             <img
-              src={HeroSectionLogoSrc}
+              src="https://images.unsplash.com/photo-1617531653332-bd46c24f2068?w=400&h=250&fit=crop"
               alt="Hero section showcasing a variety of courses"
               className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl h-auto transform transition-transform duration-300"
             />
