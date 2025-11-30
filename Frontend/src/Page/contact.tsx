@@ -316,7 +316,7 @@ const Contact: React.FC = () => {
 
                     {/* Passengers */}
                     <div>
-                        <label className="block text-sm font-medium mb-2">Passengers *</label>
+                        <label className="block text-sm font-medium mb-2">No of Passengers *</label>
                         <input
                             type="number"
                             name="passengers"
