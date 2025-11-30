@@ -1,11 +1,35 @@
 import React, { useState } from "react";
 
+const countryCodes = [
+    { code: "+1", country: "USA / Canada" },
+    { code: "+44", country: "UK" },
+    { code: "+61", country: "Australia" },
+    { code: "+64", country: "New Zealand" },
+    { code: "+91", country: "India" },
+    { code: "+92", country: "Pakistan" },
+    { code: "+971", country: "UAE" },
+    { code: "+974", country: "Qatar" },
+    { code: "+966", country: "Saudi Arabia" },
+    { code: "+977", country: "Nepal" },
+    { code: "+880", country: "Bangladesh" },
+    { code: "+86", country: "China" },
+    { code: "+81", country: "Japan" },
+    { code: "+82", country: "South Korea" },
+];
+
 const Contact: React.FC = () => {
     const [formData, setFormData] = useState({
         name: "",
+        inquiryType: "",
+        departureCity: "",
+        destinationCity: "",
+        departureDate: "",
+        returnDate: "",
+        passengers: "",
         email: "",
+        phoneCode: "+977",   // default Nepal
         phone: "",
-        subject: "",
+        leadSource: "",
         message: "",
     });
 
@@ -30,313 +54,282 @@ const Contact: React.FC = () => {
         setIsSubmitting(true);
         setSubmitStatus({ type: null, message: "" });
 
-        // Simulate form submission
+        // Here phone will be submitted as full number: +9779812345678
+        const finalData = {
+            ...formData,
+            phone: `${formData.phoneCode}${formData.phone}`,
+        };
+
+        console.log("Submitting:", finalData);
+
+        // DEMO delay (Replace with Backend API call later)
         setTimeout(() => {
             setIsSubmitting(false);
             setSubmitStatus({
                 type: "success",
-                message: "Thank you for your message! We'll get back to you soon.",
+                message: "Your inquiry has been submitted successfully!",
             });
+
+            // reset form
             setFormData({
                 name: "",
+                inquiryType: "",
+                departureCity: "",
+                destinationCity: "",
+                departureDate: "",
+                returnDate: "",
+                passengers: "",
                 email: "",
+                phoneCode: "+977",
                 phone: "",
-                subject: "",
+                leadSource: "",
                 message: "",
             });
         }, 1500);
     };
 
     return (
-        <div className="min-h-screen bg-white">
-            {/* Hero Section */}
-            <section className="bg-customDark text-customWhite pt-20 sm:pt-24 md:pt-28 lg:pt-32 pb-12 lg:pb-16 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-20">
-                <div className="w-full lg:max-w-7xl mx-auto text-center">
-                    <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 font-poppins">
-                        Contact Us
-                    </h1>
-                    <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto">
-                        Get in touch with us. We're here to help with all your vehicle rental needs.
-                    </p>
-                </div>
-            </section>
+        <div className="min-h-screen bg-white pt-24 pb-16 px-4 sm:px-6 lg:px-12 xl:px-20">
+            <div className="w-full lg:max-w-7xl mx-auto">
+                <h2 className="text-3xl font-bold text-gray-800 mb-8 font-poppins text-center">
+                    Travel Inquiry Form
+                </h2>
 
-            {/* Contact Section */}
-            <section className="py-12 lg:py-16 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-20">
-                <div className="w-full lg:max-w-7xl mx-auto">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
-                        {/* Contact Form */}
-                        <div>
-                            <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6 font-poppins">
-                                Send us a Message
-                            </h2>
-                            <form onSubmit={handleSubmit} className="space-y-6">
-                                <div>
-                                    <label
-                                        htmlFor="name"
-                                        className="block text-sm font-medium text-gray-700 mb-2"
-                                    >
-                                        Full Name *
-                                    </label>
-                                    <input
-                                        type="text"
-                                        id="name"
-                                        name="name"
-                                        value={formData.name}
-                                        onChange={handleChange}
-                                        required
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-customAccent focus:border-transparent outline-none transition-all"
-                                        placeholder="John Doe"
-                                    />
-                                </div>
+                <form onSubmit={handleSubmit} className="space-y-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+                    
+                    {/* Full Name */}
+                    <div className="col-span-1">
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Full Name *
+                        </label>
+                        <input
+                            type="text"
+                            name="name"
+                            value={formData.name}
+                            onChange={handleChange}
+                            required
+                            className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-customAccent outline-none"
+                            placeholder="John Doe"
+                        />
+                    </div>
 
-                                <div>
-                                    <label
-                                        htmlFor="email"
-                                        className="block text-sm font-medium text-gray-700 mb-2"
-                                    >
-                                        Email Address *
-                                    </label>
-                                    <input
-                                        type="email"
-                                        id="email"
-                                        name="email"
-                                        value={formData.email}
-                                        onChange={handleChange}
-                                        required
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-customAccent focus:border-transparent outline-none transition-all"
-                                        placeholder="john.doe@example.com"
-                                    />
-                                </div>
+                    {/* Inquiry Type */}
+                    <div className="col-span-1">
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Inquiry Type *
+                        </label>
+                        <select
+                            name="inquiryType"
+                            value={formData.inquiryType}
+                            onChange={handleChange}
+                            required
+                            className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-customAccent outline-none"
+                        >
+                            <option value="">Select Inquiry Type</option>
+                            <option value="urgent_ticket">Urgent Ticket</option>
+                            <option value="customer_support">Customer Support</option>
+                            <option value="date_change">Date Change</option>
+                            <option value="hotel_booking">Hotel Booking</option>
+                            <option value="new_lead">New Lead</option>
+                            <option value="others">Others</option>
+                            <option value="request_price">Request Price</option>
+                            <option value="ticket_booking">Ticket Booking</option>
+                        </select>
+                    </div>
 
-                                <div>
-                                    <label
-                                        htmlFor="phone"
-                                        className="block text-sm font-medium text-gray-700 mb-2"
-                                    >
-                                        Phone Number
-                                    </label>
-                                    <input
-                                        type="tel"
-                                        id="phone"
-                                        name="phone"
-                                        value={formData.phone}
-                                        onChange={handleChange}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-customAccent focus:border-transparent outline-none transition-all"
-                                        placeholder="+1 (234) 567-890"
-                                    />
-                                </div>
+                    {/* Departure City */}
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Departure City *
+                        </label>
+                        <input
+                            type="text"
+                            name="departureCity"
+                            value={formData.departureCity}
+                            onChange={handleChange}
+                            required
+                            className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-customAccent outline-none"
+                            placeholder="Kathmandu"
+                        />
+                    </div>
 
-                                <div>
-                                    <label
-                                        htmlFor="subject"
-                                        className="block text-sm font-medium text-gray-700 mb-2"
-                                    >
-                                        Subject *
-                                    </label>
-                                    <select
-                                        id="subject"
-                                        name="subject"
-                                        value={formData.subject}
-                                        onChange={handleChange}
-                                        required
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-customAccent focus:border-transparent outline-none transition-all"
-                                    >
-                                        <option value="">Select a subject</option>
-                                        <option value="booking">Vehicle Booking</option>
-                                        <option value="inquiry">General Inquiry</option>
-                                        <option value="support">Customer Support</option>
-                                        <option value="corporate">Corporate Services</option>
-                                        <option value="other">Other</option>
-                                    </select>
-                                </div>
+                    {/* Destination City */}
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Destination City *
+                        </label>
+                        <input
+                            type="text"
+                            name="destinationCity"
+                            value={formData.destinationCity}
+                            onChange={handleChange}
+                            required
+                            className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-customAccent outline-none"
+                            placeholder="Dubai"
+                        />
+                    </div>
 
-                                <div>
-                                    <label
-                                        htmlFor="message"
-                                        className="block text-sm font-medium text-gray-700 mb-2"
-                                    >
-                                        Message *
-                                    </label>
-                                    <textarea
-                                        id="message"
-                                        name="message"
-                                        value={formData.message}
-                                        onChange={handleChange}
-                                        required
-                                        rows={6}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-customAccent focus:border-transparent outline-none transition-all resize-none"
-                                        placeholder="Tell us how we can help you..."
-                                    />
-                                </div>
+                    {/* Departure Date */}
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Departure Date *
+                        </label>
+                        <input
+                            type="date"
+                            name="departureDate"
+                            value={formData.departureDate}
+                            onChange={handleChange}
+                            required
+                            className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-customAccent outline-none"
+                        />
+                    </div>
 
-                                {submitStatus.type && (
-                                    <div
-                                        className={`p-4 rounded-lg ${submitStatus.type === "success"
-                                            ? "bg-green-50 text-green-800 border border-green-200"
-                                            : "bg-red-50 text-red-800 border border-red-200"
-                                            }`}
-                                    >
-                                        {submitStatus.message}
-                                    </div>
-                                )}
+                    {/* Return Date */}
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Return Date
+                        </label>
+                        <input
+                            type="date"
+                            name="returnDate"
+                            value={formData.returnDate}
+                            onChange={handleChange}
+                            className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-customAccent outline-none"
+                        />
+                    </div>
 
-                                <button
-                                    type="submit"
-                                    disabled={isSubmitting}
-                                    className="w-full bg-customAccent hover:bg-[#289675] text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-                                >
-                                    {isSubmitting ? "Sending..." : "Send Message"}
-                                </button>
-                            </form>
-                        </div>
+                    {/* Passengers */}
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Number of Passengers *
+                        </label>
+                        <input
+                            type="number"
+                            name="passengers"
+                            value={formData.passengers}
+                            onChange={handleChange}
+                            required
+                            min={1}
+                            className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-customAccent outline-none"
+                            placeholder="1"
+                        />
+                    </div>
 
-                        {/* Contact Information */}
-                        <div>
-                            <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6 font-poppins">
-                                Get in Touch
-                            </h2>
-                            <p className="text-gray-600 mb-8 leading-relaxed">
-                                Have questions or need assistance? Reach out to us through any of
-                                the following channels. Our team is available 24/7 to help you.
-                            </p>
+                    {/* Email */}
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Contact Email *
+                        </label>
+                        <input
+                            type="email"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            required
+                            className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-customAccent outline-none"
+                            placeholder="example@email.com"
+                        />
+                    </div>
 
-                            <div className="space-y-6">
-                                {/* Address */}
-                                <div className="flex items-start">
-                                    <div className="bg-customAccent w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0">
-                                        <svg
-                                            className="w-6 h-6 text-white"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                                            />
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                                            />
-                                        </svg>
-                                    </div>
-                                    <div className="ml-4">
-                                        <h3 className="text-lg font-semibold text-gray-800 mb-1">
-                                            Address
-                                        </h3>
-                                        <p className="text-gray-600">
-                                            123 Main Street, City, State 12345
-                                        </p>
-                                    </div>
-                                </div>
+                    {/* Phone (with country code selector) */}
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Contact Phone *
+                        </label>
 
-                                {/* Phone */}
-                                <div className="flex items-start">
-                                    <div className="bg-customAccent w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0">
-                                        <svg
-                                            className="w-6 h-6 text-white"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                                            />
-                                        </svg>
-                                    </div>
-                                    <div className="ml-4">
-                                        <h3 className="text-lg font-semibold text-gray-800 mb-1">
-                                            Phone
-                                        </h3>
-                                        <a
-                                            href="tel:+1234567890"
-                                            className="text-gray-600 hover:text-customAccent transition-colors"
-                                        >
-                                            +1 (234) 567-890
-                                        </a>
-                                    </div>
-                                </div>
+                        <div className="flex gap-2">
+                            {/* Country Code Dropdown */}
+                            <select
+                                name="phoneCode"
+                                value={formData.phoneCode}
+                                onChange={handleChange}
+                                className="px-3 py-3 border rounded-lg focus:ring-2 focus:ring-customAccent outline-none bg-gray-50"
+                            >
+                                {countryCodes.map((item) => (
+                                    <option key={item.code} value={item.code}>
+                                        {item.code} ({item.country})
+                                    </option>
+                                ))}
+                            </select>
 
-                                {/* Email */}
-                                <div className="flex items-start">
-                                    <div className="bg-customAccent w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0">
-                                        <svg
-                                            className="w-6 h-6 text-white"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                                            />
-                                        </svg>
-                                    </div>
-                                    <div className="ml-4">
-                                        <h3 className="text-lg font-semibold text-gray-800 mb-1">
-                                            Email
-                                        </h3>
-                                        <a
-                                            href="mailto:info@yatrarental.com"
-                                            className="text-gray-600 hover:text-customAccent transition-colors"
-                                        >
-                                            info@yatrarental.com
-                                        </a>
-                                    </div>
-                                </div>
-
-                                {/* Business Hours */}
-                                <div className="flex items-start">
-                                    <div className="bg-customAccent w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0">
-                                        <svg
-                                            className="w-6 h-6 text-white"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                                            />
-                                        </svg>
-                                    </div>
-                                    <div className="ml-4">
-                                        <h3 className="text-lg font-semibold text-gray-800 mb-1">
-                                            Business Hours
-                                        </h3>
-                                        <p className="text-gray-600">
-                                            Monday - Friday: 9:00 AM - 6:00 PM
-                                            <br />
-                                            Saturday: 10:00 AM - 4:00 PM
-                                            <br />
-                                            Sunday: Closed
-                                            <br />
-                                            <span className="text-customAccent font-medium">
-                                                24/7 Emergency Support Available
-                                            </span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
+                            {/* Phone Number Input */}
+                            <input
+                                type="number"
+                                name="phone"
+                                value={formData.phone}
+                                onChange={handleChange}
+                                required
+                                className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-customAccent outline-none"
+                                placeholder="9800000000"
+                            />
                         </div>
                     </div>
-                </div>
-            </section>
+
+                    {/* Lead Source */}
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Lead Source *
+                        </label>
+                        <select
+                            name="leadSource"
+                            value={formData.leadSource}
+                            onChange={handleChange}
+                            required
+                            className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-customAccent outline-none"
+                        >
+                            <option value="">Select Lead Source</option>
+                            <option value="facebook">Facebook</option>
+                            <option value="instagram">Instagram</option>
+                            <option value="google">Google Search</option>
+                            <option value="website">Company Website</option>
+                            <option value="referral">Referral</option>
+                            <option value="tiktok">TikTok</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    {/* Message */}
+                    <div className="md:col-span-2">
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Message (Optional)
+                        </label>
+                        <textarea
+                            name="message"
+                            value={formData.message}
+                            onChange={handleChange}
+                            rows={5}
+                            className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-customAccent outline-none resize-none"
+                            placeholder="Write your message..."
+                        />
+                    </div>
+
+                    {/* Success or Error */}
+                    {submitStatus.type && (
+                        <div
+                            className={`md:col-span-2 p-4 rounded-lg ${
+                                submitStatus.type === "success"
+                                    ? "bg-green-50 text-green-800 border border-green-200"
+                                    : "bg-red-50 text-red-800 border border-red-200"
+                            }`}
+                        >
+                            {submitStatus.message}
+                        </div>
+                    )}
+
+                    {/* Button */}
+                    <div className="md:col-span-2">
+                        <button
+                            type="submit"
+                            disabled={isSubmitting}
+                            className="w-full bg-[#54766c] hover:text-white hover:bg-[#289675] text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 disabled:opacity-50"
+                        >
+                            {isSubmitting ? "Submitting..." : "Submit Inquiry"}
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 };
 
 export default Contact;
-
