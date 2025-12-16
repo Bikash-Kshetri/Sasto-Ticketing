@@ -1,47 +1,54 @@
-const express = require("express");
-const cors = require("cors");
-const dotenv = require("dotenv");
-const connectDB = require("./config/db");
+// server.js
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import connectDB from "./config/db.js";
+import authRoutes from "./routes/authRoutes.js";
+import contactRoutes from "./routes/contactRoutes.js";
 
+// Load environment variables
 dotenv.config();
+
+// Connect to MongoDB
+connectDB();
 
 const app = express();
 
-// ---- CORS FIX FOR EXPRESS 5 ---- //
+// ---- CORS CONFIG ---- //
 app.use(
-    cors({
-        origin: "http://localhost:5173",
-        methods: ["GET", "POST", "OPTIONS"],
-        allowedHeaders: ["Content-Type"],
-    })
+  cors({
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
 );
 
 // ---- GLOBAL PRE-FLIGHT HANDLER ---- //
 app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "http://localhost:5173");
-    res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-    res.header("Access-Control-Allow-Headers", "Content-Type");
+  res.header("Access-Control-Allow-Origin", "http://localhost:5173");
+  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
-    if (req.method === "OPTIONS") {
-        return res.sendStatus(200);
-    }
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200); // Handle preflight requests
+  }
 
-    next();
+  next();
 });
 
+// ---- PARSERS ---- //
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Test route
+// ---- TEST ROUTE ---- //
 app.get("/", (req, res) => {
-    res.send("Server OK");
+  res.send("🚀 Backend Running...");
 });
 
-// Connect DB
-connectDB();
-
-// Routes
-const contactRoutes = require("./routes/contactRoutes");
+// ---- API ROUTES ---- //
+app.use("/api/auth", authRoutes);
 app.use("/api/contact", contactRoutes);
 
-const PORT = 5005;
-app.listen(PORT, () => console.log(`Server running on PORT ${PORT}`));
+// ---- SERVER PORT ---- //
+const PORT = process.env.PORT || 5005;
+app.listen(PORT, () => console.log(`🚀 Server running on PORT ${PORT}`));

@@ -1,9 +1,5 @@
 import { useNavigate } from "react-router-dom";
 
-interface HeroSectionProps {
-  HeroSectionLogoSrc: string;
-}
-
 const IconWithLabel: React.FC<{
   iconType: "cancel" | "support" | "insurance";
   label: string;
@@ -74,23 +70,53 @@ const IconWithLabel: React.FC<{
   );
 };
 
-const HeroSection: React.FC<HeroSectionProps> = ({}) => {
+const HeroSection: React.FC = () => {
   const navigate = useNavigate();
 
+  // Airline logos data
+  const airlines = [
+    "QATAR AIRWAYS", "Emirates", "AIR INDIA", "JET AIRWAYS", "EGYPTAIR", "Lufthansa",
+    "swissair", "OMAN AIR", "THAI", "AIRFRANCE", "BRITISH AIRWAYS", "CATHAY PACIFIC",
+    "SINGAPORE AIRLINES", "EVA AIR", "TURKISH AIRLINES", "KLM", "DELTA AIR LINES", "IndiGo",
+    "ANA", "spicejet", "AIR CANADA", "FINNAIR", "AIR MAURITIUS", "SOUTH AFRICAN AIRWAYS",
+    "Air Asia", "Srilankan", "American Airlines", "ROYAL JORDANIAN", "virgin atlantic", "AIR CHINA", "tigerair"
+  ];
+
+  // To use your own background image:
+  // 1. Place your image in Frontend/public/assets/ folder (e.g., hero-background.jpg)
+  // 2. Replace the URL below with: '/assets/hero-background.jpg'
+  // Or use an external URL: 'https://your-image-url.com/image.jpg'
+  const backgroundImageUrl = '/assets/hero-background.jpg'; // Change this to your image path
+
   return (
-    <div className="bg-customDark w-full text-customWhite pt-20 sm:pt-24 md:pt-28 lg:pt-32 pb-8 sm:pb-10 md:pb-12 lg:pb-16 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-20 font-poppins">
-      <div className="w-full lg:max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row items-center justify-center md:space-x-8 lg:space-x-12">
-          {/* Text Section */}
-          <div className="md:w-3/5 space-y-4 lg:space-y-6 text-center md:text-left mb-8 md:mb-0">
-            <h1 className="text-2xl lg:text-[40px] font-bold text-customWhite">
-              Find Your Perfect Rental Vehicles
+    <div
+      className="relative w-full text-white pt-20 sm:pt-24 md:pt-28 lg:pt-32 pb-8 sm:pb-10 md:pb-12 lg:pb-16 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-20 font-poppins overflow-hidden min-h-screen bg-gradient-to-b from-sky-400 via-blue-500 to-blue-600"
+      style={{
+        backgroundImage: `url('${backgroundImageUrl}')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundAttachment: 'fixed',
+      }}
+    >
+      {/* Dark overlay for better text readability */}
+      <div className="absolute inset-0 bg-black/20"></div>
+
+      {/* Additional gradient overlay for better contrast */}
+      <div className="absolute inset-0 bg-gradient-to-b from-blue-900/30 via-transparent to-blue-900/30"></div>
+
+      {/* Content Section */}
+      <div className="relative z-20 w-full lg:max-w-7xl mx-auto">
+        <div className="flex flex-col items-center justify-center text-center space-y-6 md:space-y-8">
+          {/* Main Text */}
+          <div className="space-y-4 md:space-y-6">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white drop-shadow-2xl">
+              DOMESTIC & INTERNATIONAL FLIGHTS
             </h1>
-            <p className="text-sm lg:text-base text-customWhite text-justify leading-relaxed font-light max-w-2xl mx-auto md:mx-0">
-              Choose from our wide selection of cars, trucks, and SUVs to suit
-              your Journey and budget. Book now for a hassle-free experience!
+            <p className="text-2xl md:text-3xl lg:text-4xl font-medium text-red-500 drop-shadow-lg">
+              Tickets made easy.
             </p>
-            <div className="flex flex-wrap gap-4 lg:gap-6 justify-center md:justify-start">
+            <div className="flex flex-wrap gap-4 lg:gap-6 justify-center">
               <IconWithLabel
                 iconType="cancel"
                 label="Free Cancellation"
@@ -107,39 +133,37 @@ const HeroSection: React.FC<HeroSectionProps> = ({}) => {
                 colorClass="text-pink-500"
               />
             </div>
-            <div className="flex justify-center md:justify-start">
+            <div className="flex justify-center pt-4">
               <button
-                onClick={() => navigate("")}
-                className="bg-customAccent h-12 flex items-center p-4 rounded-[14px] text-sm md:text-base text-customWhite font-semibold align-middle hover:bg-[#289675] transition-all duration-300 ease-in-out"
-                aria-label="Explore Vehicle"
+                onClick={() => navigate("//booknow/:id")}
+                className="bg-red-600 hover:bg-red-700 text-white font-semibold px-8 py-4 rounded-md text-base md:text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300 ease-in-out"
+                aria-label="Book Your Flight Now"
               >
-                Browse Vehicle
+                Book your flight now
               </button>
             </div>
           </div>
+        </div>
 
-          {/* Image Section */}
-          <div className="md:w-2/5 flex justify-center">
-            <img
-              src="https://images.unsplash.com/photo-1617531653332-bd46c24f2068?w=400&h=250&fit=crop"
-              alt="Hero section showcasing a variety of courses"
-              className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl h-auto transform transition-transform duration-300"
-            />
+        {/* Airline Logos Grid */}
+        <div className="relative z-20 mt-16 md:mt-20 lg:mt-24">
+          <div className="bg-white/95 backdrop-blur-sm rounded-lg p-4 md:p-6 shadow-2xl">
+            <h3 className="text-center text-lg md:text-xl font-bold text-gray-800 mb-4 md:mb-6">
+              Our Airline Partners
+            </h3>
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-7 gap-3 md:gap-4">
+              {airlines.map((airline, index) => (
+                <div
+                  key={index}
+                  className="bg-gray-100 hover:bg-gray-200 rounded p-2 md:p-3 transition-all duration-200 flex items-center justify-center min-h-[60px] md:min-h-[80px]"
+                >
+                  <span className="text-[8px] sm:text-[10px] md:text-xs font-semibold text-gray-700 text-center">
+                    {airline}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-        <div className="mt-12 lg:mt-16 text-center">
-          <h1 className="text-2xl lg:text-3xl font-bold mb-4">
-            Featured Collection
-          </h1>
-          <h2 className="text-sm lg:text-base text-customWhite max-w-3xl mx-auto">
-            Handcrafted selection of the world's most extraordinary vehicles.
-            Each one tells a story of performance, luxury, and innovation.
-          </h2>
-        </div>
-        <div className="mt-12 lg:mt-16 text-center">
-          <h1 className="text-2xl lg:text-3xl font-bold mb-4">
-            Why Choose Yatra?
-          </h1>
         </div>
       </div>
     </div>
