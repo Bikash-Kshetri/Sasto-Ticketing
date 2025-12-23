@@ -43,5 +43,8 @@ connectDB();
 const contactRoutes = require("./routes/contactRoutes");
 app.use("/api/contact", contactRoutes);
 
+const adminRoutes = require("./routes/adminRoutes");
+app.use("/api/admin", adminRoutes)
+
 const PORT = 5005;
 app.listen(PORT, () => console.log(`Server running on PORT ${PORT}`));

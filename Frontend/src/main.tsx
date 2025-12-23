@@ -24,6 +24,7 @@ import PrajolFlights from "./Page/Flights/prajwolflights";
 import SignUpPage from "./Page/signup";
 import ThemeSwitch from "./Page/themeswitch";
 import KeyPersons from "./Page/keyperson";
+import ProtectedRoute from "./routes/protectedRoutes";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -44,7 +45,11 @@ createRoot(document.getElementById("root")!).render(
         <Route path="/search" element={<SearchPage />} />
         <Route path="/agent-login" element={<AgentLogin />} />
          <Route path="/" element={<AgentLogin />} />
-         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard" element={
+          <ProtectedRoute>
+            <Dashboard />
+            </ProtectedRoute>
+        } />
          <Route path="/flights/sudip" element={<SudipFlights />} />
          <Route path="/flights/prajol" element={<PrajolFlights />} />
          <Route path="/signup" element={<SignUpPage />} />
