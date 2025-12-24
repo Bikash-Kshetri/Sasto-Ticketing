@@ -1,8 +1,18 @@
 import { Navigate } from "react-router-dom";
 
-const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
-  const token = localStorage.getItem("adminToken");
-  return token ? children : <Navigate to="/login" replace />;
+interface ProtectedRouteProps {
+  children: JSX.Element;
+}
+
+const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
+  const adminToken = localStorage.getItem("adminToken");
+  const staffToken = localStorage.getItem("staffToken");
+
+  if (adminToken || staffToken) {
+    return children;
+  }
+
+  return <Navigate to="/staff-login" replace />;
 };
 
 export default ProtectedRoute;

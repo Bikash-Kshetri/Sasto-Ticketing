@@ -1,4 +1,5 @@
 export const logoutAdmin = () => {
   localStorage.removeItem("adminToken");
-  window.location.href = "/login";
+  localStorage.removeItem("staffToken");
+  window.location.href = "/";
 };
